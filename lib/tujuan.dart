@@ -1,67 +1,105 @@
+import 'screen_arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class TujuanPage extends StatelessWidget {
-  const TujuanPage({super.key});
+class Tujuan extends StatelessWidget {
+  const Tujuan({super.key});
+  static const routeName = '/extractArguments';
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
+
+    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+
     return Scaffold(
-      backgroundColor: Colors.red, // background sesuai contoh
-      appBar: AppBar(
-        title: const Text('Ini Halaman Tujuan'),
-        backgroundColor: Colors.red,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              "Untuk berpindah ke halaman baru, gunakan metode Navigator.push(). "
-              "Metode push() akan menambahkan Route ke dalam tumpukan Route yang dikelola oleh Navigator. "
-              "Route ini dapat dibuat secara kustom atau menggunakan MaterialPageRoute, "
-              "yang memiliki animasi transisi sesuai dengan platform yang digunakan.",
-              style: TextStyle(color: Colors.white, fontSize: 16),
-              textAlign: TextAlign.justify,
-            ),
-            const SizedBox(height: 30),
-            Container(
-              width: 200,
-              height: 200,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Center(
-                child: Image.asset(
-                  'assets/icon/island.png', // <-- path aset yang benar
-                  fit: BoxFit.contain,
+      backgroundColor: const Color(0xFFF94A29),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            width: double.maxFinite,
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF4F8FB),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          args.cover,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Text(
+                        args.title,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 0, 47, 72),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        args.description,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Color.fromARGB(255, 0, 47, 72),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                const SizedBox(height: 25),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0081c9),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 15,
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.arrow_back_ios_outlined,
+                              size: 15,
+                              color: Color(0xFFF4F8FB),
+                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              'Kembali ke game',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Color(0xFFF4F8FB),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 30),
-            const Text(
-              "Untuk menutup halaman kedua dan kembali ke halaman pertama, gunakan metode Navigator.pop(). "
-              "Metode pop() akan menghapus Route saat ini dari tumpukan Route yang dikelola oleh Navigator.",
-              style: TextStyle(color: Colors.white, fontSize: 16),
-              textAlign: TextAlign.justify,
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.arrow_back),
-              label: const Text('Kembali ke home'),
-            ),
-            const SizedBox(height: 40),
-          ],
+          ),
         ),
       ),
     );
@@ -82,44 +120,6 @@ class TujuanPage extends StatelessWidget {
 
 
 
-// import 'package:flutter/material.dart';
-
-// class TujuanPage extends StatelessWidget {
-//   const TujuanPage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Halaman Tujuan"),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             const Text(
-//               "Ini Halaman Tujuan",
-//               style: TextStyle(fontSize: 20),
-//             ),
-//             const SizedBox(height: 15),
-//             ElevatedButton(
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.blue,
-//                 foregroundColor: Colors.white,
-//               ),
-//               onPressed: () {
-//                 Navigator.pop(context);
-//               },
-//               child: const Text("Kembali ke Home"),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
 
 
 
@@ -134,37 +134,55 @@ class TujuanPage extends StatelessWidget {
 
 
 // import 'package:flutter/material.dart';
+// import 'screen_arguments.dart';
 
 // class Tujuan extends StatelessWidget {
 //   const Tujuan({super.key});
 
+//   static const routeName = '/tujuan';
+
 //   @override
 //   Widget build(BuildContext context) {
+//     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+
 //     return Scaffold(
-//       appBar: AppBar(title: const Text("Halaman Tujuan")),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             const Text(
-//               "Ini adalah halaman Tujuan",
-//               style: TextStyle(fontSize: 20),
-//             ),
-//             const SizedBox(height: 15),
-//             ElevatedButton(
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.blue,
-//                 side: const BorderSide(width: 1.0, color: Colors.blue),
+//       appBar: AppBar(title: const Text('Halaman Tujuan')),
+//       body: Padding(
+//         padding: const EdgeInsets.all(20),
+//         child: Center(
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             children: [
+//               Text(
+//                 args.title,
+//                 style: const TextStyle(
+//                   fontSize: 24,
+//                   fontWeight: FontWeight.bold,
+//                 ),
 //               ),
-//               onPressed: () {
-//                 Navigator.pop(context);
-//               },
-//               child: const Text(
-//                 "Kembali ke Home",
-//                 style: TextStyle(color: Colors.white),
+//               const SizedBox(height: 10),
+//               Text(
+//                 args.subtitle,
+//                 style: const TextStyle(
+//                   fontSize: 18,
+//                   fontStyle: FontStyle.italic,
+//                 ),
 //               ),
-//             ),
-//           ],
+//               const SizedBox(height: 10),
+//               Text(
+//                 args.description,
+//                 style: const TextStyle(fontSize: 16),
+//               ),
+//               const SizedBox(height: 15),
+//               OutlinedButton(
+//                 onPressed: () {
+//                   Navigator.pop(context);
+//                 },
+//                 child: const Text('Kembali ke Home'),
+//               ),
+//             ],
+//           ),
 //         ),
 //       ),
 //     );

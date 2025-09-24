@@ -1,68 +1,108 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'screen_arguments.dart';
+import 'tujuan.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  var title, thumbnail, short_description, description;
+  var genre, platform, release, cover, gameid, publisher;
+
+  Future getGame(String gameid) async {
+    http.Response response = await http.get(
+      Uri.parse('https://www.freetogame.com/api/game?id=$gameid'),
+    );
+    var results = jsonDecode(response.body);
+    setState(() {
+      this.gameid = gameid;
+      title = results['title'];
+      thumbnail = results['thumbnail'];
+      short_description = results['short_description'];
+      description = results['description'];
+      genre = results['genre'];
+      platform = results['platform'];
+      publisher = results['publisher'];
+      release = results['release_date'];
+      cover = results['screenshots'][0]['image'];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getGame('475'); // ambil game default
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue, // background sesuai contoh
-      appBar: AppBar(
-        title: const Text('Ini Halaman Home'),
-        backgroundColor: Colors.blue,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              "Banyak aplikasi memiliki beberapa layar untuk menampilkan informasi yang berbeda. "
-              "Contohnya, ada layar produk, dan ketika pengguna mengklik produk, akan muncul layar "
-              "dengan detail produk tersebut.",
-              style: TextStyle(color: Colors.white, fontSize: 16),
-              textAlign: TextAlign.justify,
-            ),
-            const SizedBox(height: 30),
-            // kotak putih yang menampung icon, ditempatkan di tengah
-            Container(
-              width: 200,
-              height: 200,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Center(
-                child: Image.asset(
-                  'assets/icon/home.png', // <-- path aset yang benar
-                  fit: BoxFit.contain,
+      backgroundColor: const Color(0xFF0081c9),
+      body: SafeArea(
+        child: Center(
+          child: gameid == null
+              ? const CircularProgressIndicator()
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        margin: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Column(
+                          children: [
+                            Image.network(thumbnail),
+                            const SizedBox(height: 15),
+                            Text(title,
+                                style: const TextStyle(fontSize: 24)),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Genre: $genre"),
+                                    Text("Platform: $platform"),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Publisher: $publisher"),
+                                    Text("Release: $release"),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          Tujuan.routeName,
+                          arguments: ScreenArguments(
+                            title,
+                            cover,
+                            description,
+                            short_description,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            const Text(
-              "Pertama, kita perlu membuat dua halaman atau “routes” yang ingin kita tampilkan. "
-              "Selanjutnya, kita gunakan perintah Navigator.push() untuk berpindah dari halaman pertama "
-              "ke halaman kedua ini seperti kita membuka halaman baru. Terakhir, kita bisa kembali dari halaman kedua "
-              "ke halaman pertama menggunakan Navigator.pop().",
-              style: TextStyle(color: Colors.white, fontSize: 16),
-              textAlign: TextAlign.justify,
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/tujuan');
-              },
-              child: const Text('Ke halaman tujuan >'),
-            ),
-            const SizedBox(height: 40),
-          ],
         ),
       ),
     );
@@ -84,50 +124,6 @@ class HomePage extends StatelessWidget {
 
 
 
-// import 'package:flutter/material.dart';
-
-// class HomePage extends StatelessWidget {
-//   const HomePage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Halaman Home"),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             const Text(
-//               "Ini Halaman Home",
-//               style: TextStyle(fontSize: 20),
-//             ),
-//             const SizedBox(height: 15),
-//             ElevatedButton(
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.blue,
-//                 foregroundColor: Colors.white,
-//               ),
-//               onPressed: () {
-//                 Navigator.pushNamed(context, '/tujuan');
-//               },
-//               child: const Text("Ke Halaman Tujuan"),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-
-
-
-
-
-
 
 
 
@@ -139,7 +135,8 @@ class HomePage extends StatelessWidget {
 
 
 // import 'package:flutter/material.dart';
-// import 'tujuan.dart';                                                                      //B
+// import 'tujuan.dart';
+// import 'screen_arguments.dart';
 
 // class Home extends StatelessWidget {
 //   const Home({super.key});
@@ -147,31 +144,32 @@ class HomePage extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       appBar: AppBar(title: const Text("Halaman Home")),                                  //A
+//       appBar: AppBar(title: const Text('Halaman Home')),
 //       body: Center(
 //         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
+//           mainAxisSize: MainAxisSize.min,
 //           children: [
 //             const Text(
-//               "Ini adalah halaman Home",
-//               style: TextStyle(fontSize: 20),
+//               'Ini halaman Home',
+//               style: TextStyle(
+//                 fontSize: 24,
+//               ),
 //             ),
 //             const SizedBox(height: 15),
-//             ElevatedButton(                                                              //G.
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.blue,
-//                 side: const BorderSide(width: 1.0, color: Colors.blue),
-//               ),
-//               onPressed: () {                                                           // |
-//                 Navigator.push(
-//                   context,                                                              // |
-//                   MaterialPageRoute(builder: (context) => const Tujuan()),
+//             OutlinedButton(
+//               onPressed: () {
+//                 final args = ScreenArguments(
+//                   'Judul Game',
+//                   'Genre: Action',
+//                   'Ini adalah deskripsi singkat dari game.',
+//                 );
+//                 Navigator.pushNamed(
+//                   context,
+//                   Tujuan.routeName,
+//                   arguments: args,
 //                 );
 //               },
-//               child: const Text(
-//                 "Ke Halaman Tujuan",
-//                 style: TextStyle(color: Colors.white),
-//               ),
+//               child: const Text('Ke Halaman Tujuan'),
 //             ),
 //           ],
 //         ),
