@@ -1,147 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:myapp/view/detail.dart';
+import 'package:myapp/view/home.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-// Root App
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Stateful Widget Demo',
-      // Ganti home sesuai kebutuhan, bisa CounterPage atau LikeButtonPage
-      home: CounterPage(), 
-      // home: LikeButtonPage(),
-    );
-  }
-}
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, //
+      statusBarIconBrightness: Brightness.dark, //
+    ));
 
-class CounterPage extends StatefulWidget {
-  const CounterPage({super.key});
-
-  @override
-  _CounterPageState createState() => _CounterPageState();
-}
-
-class _CounterPageState extends State<CounterPage> {
-  int _counter = 0; // state
-
-  // Method untuk tambah
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  // Method untuk kurang
-  void _decrementCounter() {
-    setState(() {
-      _counter--;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Counter App')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Klik tombol tambah atau kurang:',
-              style: TextStyle(fontSize: 24),
-            ),
-            Text(
-              '$_counter',
-              style: const TextStyle(fontSize: 40),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[700]!,
-                    minimumSize: const Size(100, 60),
-                  ),
-                  onPressed: _decrementCounter,
-                  child: const Text(
-                    'Kurang',
-                    style: TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[700]!,
-                    minimumSize: const Size(100, 60),
-                  ),
-                  onPressed: _incrementCounter,
-                  child: const Text(
-                    'Tambah',
-                    style: TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class LikeButtonPage extends StatefulWidget {
-  const LikeButtonPage({super.key});
-
-  @override
-  State<LikeButtonPage> createState() => _LikeButtonPageState();
-}
-
-class _LikeButtonPageState extends State<LikeButtonPage> {
-  bool _isLiked = false; // state untuk status like
-  int _likeCount = 10;
-
-  // Method untuk toggle like
-  void _toggleLike() {
-    setState(() {
-      if (_isLiked) {
-        _likeCount--;
-        _isLiked = false;
-      } else {
-        _likeCount++;
-        _isLiked = true;
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Like Button')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: Icon(
-                _isLiked ? Icons.favorite : Icons.favorite_border,
-                color: _isLiked ? Colors.red : Colors.grey,
-                size: 48,
-              ),
-              onPressed: _toggleLike,
-            ),
-            Text(
-              '$_likeCount likes',
-              style: const TextStyle(fontSize: 20),
-            ),
-          ],
-        ),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false, //
+      title: 'Flutter Game Store', //
+      initialRoute: '/', //
+      routes: {
+        '/': (context) => const Home(), //
+        '/detail': (context) {
+          final gameId = ModalRoute.of(context)!.settings.arguments as int; //
+          return Detail(gameTerpilih: gameId); //
+        },
+      },
     );
   }
 }
