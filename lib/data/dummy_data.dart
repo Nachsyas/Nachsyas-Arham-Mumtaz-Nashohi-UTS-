@@ -1,10 +1,5 @@
-// Lokasi: lib/data/dummy_data.dart
-// (Anda perlu membuat folder 'data' di dalam 'lib')
-
 import 'package:myapp/model/movie_model.dart';
 
-// 8 film untuk "Untuk Anda" (Carousel Bawah)
-// Daftar ini TIDAK BERUBAH dari versi sebelumnya
 const List<Movie> forYouMovies = [
   Movie(id: 'f1', title: "Interstellar", posterURL: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", rating: 8.4, synopsis: "Perjalanan sekelompok penjelajah yang menggunakan lubang cacing untuk melampaui batas perjalanan luar angkasa manusia."),
   Movie(id: 'f4', title: "Oppenheimer", posterURL: "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg", rating: 8.6, synopsis: "Kisah fisikawan Amerika, J. Robert Oppenheimer, dan perannya dalam pengembangan bom atom."),
@@ -14,8 +9,6 @@ const List<Movie> forYouMovies = [
   Movie(id: 'f8', title: "Everything Everywhere", posterURL: "https://image.tmdb.org/t/p/w500/w3LxiVYdWWRvEVdn5RYq6jIqkb1.jpg", rating: 8.0, synopsis: "Seorang imigran Tionghoa-Amerika terseret ke dalam petualangan gila, di mana ia sendiri yang bisa menyelamatkan dunia."),
 ];
 
-// 20 film untuk "Lihat Semua" dan Search
-// Daftar ini TIDAK BERUBAH dari versi sebelumnya
 const List<Movie> allForYouMovies = [
   ...forYouMovies, // 8 film di atas
   Movie(id: 'f9', title: "The Dark Knight", posterURL: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg", rating: 8.5),
@@ -29,11 +22,8 @@ const List<Movie> allForYouMovies = [
   Movie(id: 'f18', title: "The Matrix", posterURL: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", rating: 8.2),
 ];
 
-// --- PERUBAHAN DI SINI ---
-// Data HANYA 3 film untuk Hero Carousel (Oppenheimer, Interstellar, Dune)
 const List<Movie> heroBannerMovies = [
     Movie(id: 'h3', title: "Oppenheimer", posterURL: "https://image.tmdb.org/t/p/w780/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg", synopsis: "Paling Populer"), // Urutan pertama
     Movie(id: 'h1', title: "Interstellar", posterURL: "https://image.tmdb.org/t/p/w780/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", synopsis: "Now Streaming Exclusively"), // Urutan kedua
     Movie(id: 'h2', title: "Dune", posterURL: "https://image.tmdb.org/t/p/w780/d5NXSklXo0qyIYkgV94XAgMIckC.jpg", synopsis: "Baru Tersedia"), // Urutan ketiga
 ];
-// --- AKHIR PERUBAHAN ---

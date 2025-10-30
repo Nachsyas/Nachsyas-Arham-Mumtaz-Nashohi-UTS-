@@ -1,10 +1,9 @@
-// Lokasi: lib/screens/add_edit_movie_screen.dart
+
 
 import 'package:flutter/material.dart';
 import 'package:myapp/model/movie_model.dart';
 
 class AddEditMovieScreen extends StatefulWidget {
-  // Jika 'movieToEdit' ada, berarti mode edit. Jika null, mode tambah.
   final Movie? movieToEdit;
 
   const AddEditMovieScreen({super.key, this.movieToEdit});
@@ -20,12 +19,11 @@ class _AddEditMovieScreenState extends State<AddEditMovieScreen> {
   late TextEditingController _synopsisController;
   late TextEditingController _ratingController;
 
-  bool get _isEditing => widget.movieToEdit != null; // Cek mode edit
+  bool get _isEditing => widget.movieToEdit != null;
 
   @override
   void initState() {
     super.initState();
-    // Isi controller dengan data yang ada jika mode edit
     _titleController = TextEditingController(text: widget.movieToEdit?.title ?? '');
     _posterUrlController = TextEditingController(text: widget.movieToEdit?.posterURL ?? '');
     _synopsisController = TextEditingController(text: widget.movieToEdit?.synopsis ?? '');
@@ -43,25 +41,15 @@ class _AddEditMovieScreenState extends State<AddEditMovieScreen> {
 
   void _saveForm() {
     if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save(); // Simpan data dari form
-
-      // Buat objek Movie baru dari data form
+      _formKey.currentState!.save();
       final newMovieData = Movie(
-        // Jika mode edit, gunakan ID lama. Jika mode tambah, buat ID unik (sementara pakai timestamp)
         id: widget.movieToEdit?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
         title: _titleController.text,
         posterURL: _posterUrlController.text,
         synopsis: _synopsisController.text,
-        // Coba parse rating, jika gagal beri nilai 0.0
         rating: double.tryParse(_ratingController.text) ?? 0.0,
       );
-
-      // --- SIMULASI SIMPAN ---
-      // Di aplikasi nyata, di sini Anda akan memanggil fungsi Firebase
-      // untuk menyimpan atau update data.
-      // Karena kita pakai data dummy, kita hanya kembalikan data barunya
-      // ke halaman sebelumnya (MovieManagementScreen).
-      Navigator.pop(context, newMovieData); 
+      Navigator.pop(context, newMovieData);
     }
   }
 
@@ -82,7 +70,7 @@ class _AddEditMovieScreenState extends State<AddEditMovieScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: ListView( // Gunakan ListView agar form bisa di-scroll
+          child: ListView(
             children: <Widget>[
               TextFormField(
                 controller: _titleController,
@@ -109,7 +97,7 @@ class _AddEditMovieScreenState extends State<AddEditMovieScreen> {
               TextFormField(
                 controller: _synopsisController,
                 decoration: const InputDecoration(labelText: 'Sinopsis'),
-                maxLines: 4, // Beberapa baris untuk sinopsis
+                maxLines: 4,
                 validator: (value) {
                    if (value == null || value.isEmpty) {
                     return 'Sinopsis tidak boleh kosong';

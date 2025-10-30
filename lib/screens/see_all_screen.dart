@@ -23,15 +23,10 @@ class SeeAllScreen extends StatelessWidget {
       body: GridView.builder(
         padding: const EdgeInsets.all(16.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, 
-          
-          // --- INI PERBAIKAN JARAK ---
-          // Rasio ini (0.7) lebih cocok untuk 2 kolom
-          childAspectRatio: 0.7, 
-          // ---------------------------
-
-          crossAxisSpacing: 16.0,     
-          mainAxisSpacing: 16.0,      
+          crossAxisCount: 2,
+          childAspectRatio: 0.7,
+          crossAxisSpacing: 16.0,
+          mainAxisSpacing: 16.0,
         ),
         itemCount: movies.length,
         itemBuilder: (context, index) {

@@ -1,11 +1,8 @@
-// Lokasi: lib/model/movie_model.dart
-
 class Movie {
   final String id;
   final String title;
   final String posterURL;
-
-  // Data tambahan untuk halaman detail
+  
   final String synopsis;
   final double rating;
 
@@ -16,8 +13,7 @@ class Movie {
     this.synopsis = 'Sinopsis film belum tersedia.',
     this.rating = 0.0,
   });
-
-  // Ini penting agar service "Recently Viewed" bisa membandingkan film
+  
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

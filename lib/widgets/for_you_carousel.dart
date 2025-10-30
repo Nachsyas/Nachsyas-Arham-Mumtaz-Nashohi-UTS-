@@ -1,5 +1,3 @@
-// Lokasi: lib/widgets/for_you_carousel.dart
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myapp/model/movie_model.dart';
@@ -8,7 +6,7 @@ import 'package:myapp/widgets/movie_card.dart';
 class ForYouCarousel extends StatefulWidget {
   final String title;
   final List<Movie> movies;
-  final VoidCallback onSeeAllTap; // Callback untuk "Lihat Semua"
+  final VoidCallback onSeeAllTap;
 
   const ForYouCarousel({
     super.key,
@@ -29,15 +27,12 @@ class _ForYouCarouselState extends State<ForYouCarousel> {
   @override
   void initState() {
     super.initState();
-    // Tampilkan sekitar 2.5 kartu sekaligus
-    _pageController = PageController(viewportFraction: 0.35); 
-
-    // Timer untuk auto-scroll
-    _timer = Timer.periodic(const Duration(seconds: 4), (Timer timer) { // Sedikit lebih cepat
+    _pageController = PageController(viewportFraction: 0.35);
+    _timer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
       if (_currentPage < widget.movies.length - 1) {
         _currentPage++;
       } else {
-        _currentPage = 0; // Kembali ke awal
+        _currentPage = 0;
       }
 
       if (_pageController.hasClients) {
@@ -62,7 +57,6 @@ class _ForYouCarouselState extends State<ForYouCarousel> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // --- Judul dan Tombol "Lihat Semua" ---
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Row( 
@@ -75,7 +69,7 @@ class _ForYouCarouselState extends State<ForYouCarousel> {
                     ),
               ),
               TextButton(
-                onPressed: widget.onSeeAllTap, // Gunakan callback
+                onPressed: widget.onSeeAllTap,
                 child: Text(
                   'Lihat Semua',
                   style: TextStyle(color: Theme.of(context).primaryColor),
@@ -85,20 +79,16 @@ class _ForYouCarouselState extends State<ForYouCarousel> {
           ),
         ),
         const SizedBox(height: 16),
-
-        // --- Carousel PageView ---
+        
         SizedBox(
-          height: 200, // Tinggi yang sama dengan list horizontal sebelumnya
+          height: 200,
           child: PageView.builder(
             controller: _pageController,
             itemCount: widget.movies.length,
             onPageChanged: (int page) {
-              // Tidak perlu setState agar indikator tidak muncul
-              // setState(() { _currentPage = page; });
             },
             itemBuilder: (context, index) {
               final movie = widget.movies[index];
-              // Beri sedikit padding antar kartu
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0), 
                 child: MovieCard(movie: movie), 
@@ -106,7 +96,6 @@ class _ForYouCarouselState extends State<ForYouCarousel> {
             },
           ),
         ),
-        // Kita tidak tampilkan indikator titik di sini agar tidak terlalu ramai
       ],
     );
   }

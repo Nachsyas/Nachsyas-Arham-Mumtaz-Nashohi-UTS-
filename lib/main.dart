@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; // Anda mungkin perlu menambahkan google_fonts di pubspec.yaml
-import 'package:myapp/screens/login_screen.dart'; // GANTI NAMA PROJECT
+import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/screens/login_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
@@ -11,7 +18,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Definisikan warna tema kita
     const Color kDarkBlue = Color(0xFF1B1D2A);
     const Color kAccentBlue = Color(0xFF6A53F0);
 
@@ -19,12 +25,10 @@ class MyApp extends StatelessWidget {
       title: 'Islamic Movie Platform',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // Tema utama aplikasi
         brightness: Brightness.dark,
         primaryColor: kAccentBlue,
         scaffoldBackgroundColor: kDarkBlue,
-        
-        // Tema untuk Button
+
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: kAccentBlue,
@@ -40,16 +44,37 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
-        // Tema untuk Text
         textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
 
-        // Tema untuk AppBar
         appBarTheme: const AppBarTheme(
-          backgroundColor: kDarkBlue,
+          backgroundColor: Colors.transparent,
           elevation: 0,
+          titleTextStyle: TextStyle(
+             fontSize: 20,
+             fontWeight: FontWeight.w600,
+           ),
         ),
-      ),
-      home: const LoginScreen(), // Memulai aplikasi dari LoginScreen
+         
+         inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.black.withOpacity(0.3),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          labelStyle: TextStyle(color: Colors.grey.shade400),
+          prefixIconColor: Colors.grey.shade400,
+        ),
+
+         bottomNavigationBarTheme: BottomNavigationBarThemeData(
+           backgroundColor: kDarkBlue.withOpacity(0.95),
+           selectedItemColor: kAccentBlue,
+           unselectedItemColor: Colors.grey,
+           elevation: 0,
+         ),
+
+    ),
+      home: const LoginScreen(),
     );
   }
 }

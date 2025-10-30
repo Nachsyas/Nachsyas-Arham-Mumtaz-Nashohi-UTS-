@@ -1,9 +1,6 @@
-// Lokasi: lib/screens/search_screen.dart
-
 import 'package:flutter/material.dart';
-// No longer importing dummy_data directly
 import 'package:myapp/model/movie_model.dart';
-import 'package:myapp/viewmodel/movie_data_service.dart'; // Import central data service
+import 'package:myapp/viewmodel/movie_data_service.dart';
 import 'package:myapp/widgets/movie_card.dart';
 import 'package:myapp/widgets/scrolling_background.dart';
 
@@ -16,18 +13,14 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final _searchController = TextEditingController();
-  List<Movie> _filteredMovies = []; // List to hold search results
-
-  // Get initial data from the service
+  List<Movie> _filteredMovies = [];
   List<Movie> _allMovies = MovieDataService.allMoviesNotifier.value;
 
   @override
   void initState() {
     super.initState();
-    // Initially, show all movies
     _filteredMovies = _allMovies;
     _searchController.addListener(_onSearchChanged);
-    // Listen for global data changes (e.g., deletions from Profile)
     MovieDataService.allMoviesNotifier.addListener(_onGlobalDataChanged);
   }
 
@@ -35,39 +28,29 @@ class _SearchScreenState extends State<SearchScreen> {
   void dispose() {
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
-    // Remove the listener when the widget is disposed
     MovieDataService.allMoviesNotifier.removeListener(_onGlobalDataChanged);
     super.dispose();
   }
-
-  // Called when the global movie list changes
   void _onGlobalDataChanged() {
-    // Update the local copy and re-apply the filter
-    if (mounted) { // Check if the widget is still in the tree
+    if (mounted) {
       setState(() {
         _allMovies = MovieDataService.allMoviesNotifier.value;
-        _onSearchChanged(); // Re-filter results with the current query
+        _onSearchChanged();
       });
     }
   }
-
-  // Called every time the text in the search bar changes
   void _onSearchChanged() {
     String query = _searchController.text.toLowerCase();
     setState(() {
       if (query.isEmpty) {
-        // If search bar is empty, show all movies from the current global list
         _filteredMovies = _allMovies;
       } else {
-        // Otherwise, filter the current global list based on the title
         _filteredMovies = _allMovies
             .where((movie) => movie.title.toLowerCase().contains(query))
             .toList();
       }
     });
   }
-
-  // Clears the search bar text
   void _clearSearch() {
     _searchController.clear();
   }
@@ -76,24 +59,18 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // --- 1. Scrolling Background ---
         const ScrollingBackground(),
-
-        // --- 2. Page Content (Search Bar + Grid) ---
         Scaffold(
-          backgroundColor: Colors.transparent, // Required for background visibility
+          backgroundColor: Colors.transparent,
           body: SafeArea(
-            child: CustomScrollView( // Use CustomScrollView for floating AppBar effect
+            child: CustomScrollView(
               slivers: [
-                // --- Search Bar ---
                 SliverAppBar(
-                  backgroundColor: Colors.transparent, // Transparent AppBar
+                  backgroundColor: Colors.transparent,
                   elevation: 0,
-                  pinned: true, // Keep search bar visible while scrolling
+                  pinned: true,
                   title: _buildSearchBar(),
                 ),
-
-                // --- Search Results Grid ---
                 SliverPadding(
                   padding: const EdgeInsets.all(16.0),
                   sliver: _buildResultsGrid(),
@@ -105,17 +82,14 @@ class _SearchScreenState extends State<SearchScreen> {
       ],
     );
   }
-
-  // Builds the search text field
   Widget _buildSearchBar() {
     return TextField(
       controller: _searchController,
       style: const TextStyle(color: Colors.white),
-      decoration: InputDecoration( // Uses theme from main.dart
+      decoration: InputDecoration(
         hintText: 'Cari film, serial, dan lainnya...',
         hintStyle: TextStyle(color: Colors.grey.shade400),
-        prefixIcon: const Icon(Icons.search), // Color comes from theme
-        // Show clear button only if there's text
+        prefixIcon: const Icon(Icons.search),
         suffixIcon: _searchController.text.isNotEmpty
             ? IconButton(
                 icon: Icon(Icons.clear, color: Colors.grey.shade400),
@@ -123,16 +97,12 @@ class _SearchScreenState extends State<SearchScreen> {
               )
             : null,
         contentPadding: const EdgeInsets.symmetric(vertical: 14.0),
-        // Border styling is handled by the theme in main.dart
       ),
     );
   }
-
-  // Builds the grid displaying search results
   Widget _buildResultsGrid() {
-    // Show a message if no movies match the filter
     if (_filteredMovies.isEmpty) {
-      return const SliverToBoxAdapter( // Use SliverToBoxAdapter for non-sliver content inside CustomScrollView
+      return const SliverToBoxAdapter(
         child: Center(
           child: Padding(
             padding: EdgeInsets.only(top: 50.0),
@@ -144,23 +114,19 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       );
     }
-
-    // Show the grid if there are results
     return SliverGrid(
       delegate: SliverChildBuilderDelegate(
         (context, index) {
           final movie = _filteredMovies[index];
-          // Use the updated MovieCard which uses Expanded
           return MovieCard(movie: movie);
         },
         childCount: _filteredMovies.length,
       ),
-      // Configure the grid layout
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3, // 3 columns
-        childAspectRatio: 0.55, // Adjusted aspect ratio for MovieCard with Expanded
-        crossAxisSpacing: 16.0, // Horizontal spacing
-        mainAxisSpacing: 16.0,  // Vertical spacing
+        crossAxisCount: 3,
+        childAspectRatio: 0.55,
+        crossAxisSpacing: 16.0,
+        mainAxisSpacing: 16.0,  
       ),
     );
   }

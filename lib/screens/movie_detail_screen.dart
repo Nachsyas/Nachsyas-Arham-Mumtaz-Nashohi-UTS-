@@ -37,15 +37,11 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             Stack(
               children: [
                 Image.network(
-                  // --- PERUBAHAN ---
-                  // Ganti 'original' ke 'w780' agar lebih aman & cepat
-                  widget.movie.posterURL.replaceAll('w500', 'w780'), 
-                  // -----------------
+                  widget.movie.posterURL.replaceAll('w500', 'w780'),
                   width: double.infinity,
-                  height: 400, 
+                  height: 400,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
-                    // Fallback jika 'w780' gagal, gunakan 'w500'
                     return Image.network(
                       widget.movie.posterURL,
                       width: double.infinity,

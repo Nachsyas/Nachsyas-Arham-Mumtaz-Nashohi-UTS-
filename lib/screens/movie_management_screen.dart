@@ -15,15 +15,6 @@ class MovieManagementScreen extends StatefulWidget {
 }
 
 class _MovieManagementScreenState extends State<MovieManagementScreen> {
-  // HAPUS state '_movies' lokal
-  // late List<Movie> _movies;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _movies = List<Movie>.from(allForYouMovies); 
-  // }
-
   void _navigateToAddMovie() async {
     final result = await Navigator.push<Movie?>( 
       context,
@@ -31,9 +22,7 @@ class _MovieManagementScreenState extends State<MovieManagementScreen> {
     );
 
     if (result != null && mounted) {
-      // --- GUNAKAN SERVICE ---
       MovieDataService.addMovie(result); 
-      // ---------------------
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Film baru berhasil ditambahkan!'), backgroundColor: Colors.green),
       );
@@ -49,9 +38,7 @@ class _MovieManagementScreenState extends State<MovieManagementScreen> {
     );
 
      if (result != null && mounted) {
-       // --- GUNAKAN SERVICE ---
        MovieDataService.updateMovie(result);
-       // ---------------------
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Film berhasil diperbarui!'), backgroundColor: Colors.blue),
       );
@@ -74,9 +61,7 @@ class _MovieManagementScreenState extends State<MovieManagementScreen> {
             child: const Text('Hapus'),
             onPressed: () {
               Navigator.of(ctx).pop(); 
-              // --- GUNAKAN SERVICE ---
               MovieDataService.deleteMovie(movie.id); 
-              // ---------------------
                ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Film "${movie.title}" dihapus!'), backgroundColor: Colors.red),
               );
@@ -93,15 +78,12 @@ class _MovieManagementScreenState extends State<MovieManagementScreen> {
       appBar: AppBar(
         title: const Text('Kelola Film'),
       ),
-      // --- GUNAKAN ValueListenableBuilder ---
       body: ValueListenableBuilder<List<Movie>>(
-        valueListenable: MovieDataService.allMoviesNotifier, // Dengarkan perubahan
-        builder: (context, movies, child) { // 'movies' adalah list terbaru
-          // Jika kosong, tampilkan pesan
+        valueListenable: MovieDataService.allMoviesNotifier,
+        builder: (context, movies, child) {
           if (movies.isEmpty) {
             return const Center(child: Text('Belum ada film.'));
           }
-          // Jika ada data, tampilkan ListView
           return ListView.builder(
             itemCount: movies.length,
             itemBuilder: (context, index) {
@@ -122,13 +104,11 @@ class _MovieManagementScreenState extends State<MovieManagementScreen> {
                     children: [
                       IconButton(
                         icon: Icon(Icons.edit, color: Theme.of(context).primaryColor),
-                        // Kirim index dari list 'movies' terbaru
                         onPressed: () => _navigateToEditMovie(movie, movies.indexOf(movie)), 
                         tooltip: 'Edit Film',
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete, color: Colors.redAccent),
-                         // Kirim index dari list 'movies' terbaru
                         onPressed: () => _confirmDeleteMovie(movie, movies.indexOf(movie)),
                          tooltip: 'Hapus Film',
                       ),
@@ -140,7 +120,6 @@ class _MovieManagementScreenState extends State<MovieManagementScreen> {
           );
         },
       ),
-      // ---------------------------------
       floatingActionButton: FloatingActionButton(
         onPressed: _navigateToAddMovie,
         tooltip: 'Tambah Film Baru',

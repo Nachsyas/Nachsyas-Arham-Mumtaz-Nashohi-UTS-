@@ -1,5 +1,3 @@
-// Lokasi: lib/screens/profile_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/login_screen.dart'; // Untuk logout
 import 'package:myapp/screens/movie_management_screen.dart'; // Halaman manajemen film
@@ -9,20 +7,17 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Data user dummy (ganti dengan data asli nanti)
-    const String userEmail = "admin@example.com";
-    const String userName = "Admin User";
+    const String userEmail = "nchsys.arham@gmail.com";
+    const String userName = "Nachsyas";
 
     return Scaffold(
-      // AppBar agar terlihat konsisten
       appBar: AppBar(
         title: const Text('Profil Saya'),
-        automaticallyImplyLeading: false, // Sembunyikan tombol kembali
+        automaticallyImplyLeading: false,
       ),
-      body: ListView( // Gunakan ListView agar bisa di-scroll jika kontennya banyak
+      body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          // --- Bagian Info User ---
           Row(
             children: [
               const CircleAvatar(
@@ -50,11 +45,10 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 30),
-          const Divider(), // Garis pemisah
-
-          // --- Menu Manajemen Film (Khusus Admin) ---
+          const Divider(),
+          
           ListTile(
-            leading: const Icon(Icons.edit_note), // <-- GANTI MENJADI INI
+            leading: const Icon(Icons.edit_note),
             title: const Text('Kelola Film'),
             subtitle: const Text('Tambah, edit, atau hapus data film'),
             trailing: const Icon(Icons.chevron_right),
@@ -66,14 +60,11 @@ class ProfileScreen extends StatelessWidget {
             },
           ),
           const Divider(),
-
-          // --- Menu Pengaturan Akun (Contoh) ---
           ListTile(
             leading: const Icon(Icons.lock_outline),
             title: const Text('Ganti Password'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
-              // TODO: Tambahkan navigasi ke halaman ganti password
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Fitur ganti password belum dibuat.')),
               );
@@ -84,29 +75,25 @@ class ProfileScreen extends StatelessWidget {
             title: const Text('Edit Profil'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
-               // TODO: Tambahkan navigasi ke halaman edit profil
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Fitur edit profil belum dibuat.')),
               );
             },
           ),
           const Divider(),
-
-          // --- Tombol Logout ---
           const SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                // Kembali ke halaman login dan hapus semua halaman sebelumnya
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  (Route<dynamic> route) => false, // Hapus semua route
+                  (Route<dynamic> route) => false,
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red.shade800, // Warna merah untuk logout
+                backgroundColor: Colors.red.shade800,
               ),
               child: const Text('Logout'),
             ),

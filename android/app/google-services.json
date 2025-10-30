@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "120010424765",
+    "project_id": "islamic-movie-platform-1",
+    "storage_bucket": "islamic-movie-platform-1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120010424765:android:1c11aa324bf58acbc512d4",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1U5ihWWs1kNZxEkq1MHQkZ0rs7AZwwXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

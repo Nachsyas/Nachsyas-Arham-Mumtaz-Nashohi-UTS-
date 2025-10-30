@@ -1,5 +1,3 @@
-// Lokasi: lib/widgets/auth_background.dart
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 
@@ -11,25 +9,20 @@ class AuthBackground extends StatefulWidget {
 }
 
 class _AuthBackgroundState extends State<AuthBackground> {
-  // --- DAFTAR WALLPAPER (LINK BARU DARI TMDB) ---
   final List<String> _wallpapers = [
-    'https://image.tmdb.org/t/p/w780/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg', // Interstellar
-    'https://image.tmdb.org/t/p/w780/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg', // Oppenheimer
-    'https://image.tmdb.org/t/p/w780/d5NXSklXo0qyIYkgV94XAgMIckC.jpg', // Dune
-    'https://image.tmdb.org/t/p/w780/k68nPLbIST6NP96JmTxmZijEvCA.jpg', // Tenet
-    'https://image.tmdb.org/t/p/w780/qJ2tW6WMUDux911r6m7haRef0WH.jpg', // The Dark Knight
+    'https://image.tmdb.org/t/p/w780/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',
+    'https://image.tmdb.org/t/p/w780/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
+    'https://image.tmdb.org/t/p/w780/d5NXSklXo0qyIYkgV94XAgMIckC.jpg',
+    'https://image.tmdb.org/t/p/w780/k68nPLbIST6NP96JmTxmZijEvCA.jpg',
+    'https://image.tmdb.org/t/p/w780/qJ2tW6WMUDux911r6m7haRef0WH.jpg',
   ];
-  // ---------------------------------------------
 
   int _currentWallpaperIndex = 0;
   Timer? _timer;
 
   @override
   void initState() {
-    // --- INI PERBAIKANNYA ---
-    super.initState(); // Hapus tanda '_'
-    // ------------------------
-    
+    super.initState();
     _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       setState(() {
         _currentWallpaperIndex =
@@ -61,10 +54,10 @@ class _AuthBackgroundState extends State<AuthBackground> {
                 return child;
               }
               return AnimatedOpacity(
-                child: child,
                 opacity: frame == null ? 0 : 1,
                 duration: const Duration(seconds: 1),
                 curve: Curves.easeOut,
+                child: child,
               );
             },
             errorBuilder: (context, error, stackTrace) {
