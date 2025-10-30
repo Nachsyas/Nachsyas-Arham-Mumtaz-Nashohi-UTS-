@@ -1,4 +1,4 @@
-# Modul-7-Prak.-Mobile-Programming
+# UTS-Mobile-Programming
 
 A new Flutter project for Mobile Programming practical work.
 
